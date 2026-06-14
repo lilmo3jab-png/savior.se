@@ -1,0 +1,1622 @@
+{% comment %}
+==========================================================================
+KONSTEN ATT SPARA PENGAR - LANDNINGSSIDA (CUSTOM LIQUID FOR SHOPIFY)
+==========================================================================
+Hur du installerar denna sektion i Shopify ( Dawn-temat eller liknande ):
+1. Gå till din Shopify Admin -> Webbshop -> Teman -> Anpassa (Customize).
+2. Klicka på "Lägg till sektion" (Add section) i vänstermenyn och välj "Anpassad liquid" (Custom Liquid).
+3. Kopiera hela källkoden i denna fil och klistra in den i Liquid-boxen.
+4. Ladda upp bilderna i din Shopify Admin under Inställningar -> Filer (Settings -> Files)
+   och namnge dem exakt som nedan eller uppdatera URL-länkarna i koden:
+   - "HF 2026-06-14 090756.jpeg" -> (Bok + iPad)
+   - "hf 2026-06-14 09-08-14.jpeg" -> (Öppen bok med diagram)
+   - "HF 2026-06-14 09-08-09.jpeg" -> (Bokomslag)
+   - "hf 2026-06-14 090818.png" -> (Morgon/kaffe-bakgrund)
+==========================================================================
+{% endcomment %}
+
+<!-- custom font styles for this section -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* CSS Styles scoped or isolated under the #kas-landing wrapper to prevent clashes with your Shopify theme */
+#kas-landing {
+    --color-primary: #8fa087;        
+    --color-primary-dark: #6e7e66;   
+    --color-secondary: #2b3d29;     
+    --color-accent: #c5a46e;        
+    --color-accent-light: #f4eee2;  
+    --color-bg-light: #fcfbfa;      
+    --color-bg-alt: #f5f2eb;        
+    --color-text-dark: #2b2b2a;     
+    --color-text-muted: #666664;    
+    --color-white: #ffffff;
+    --color-border: #e6e3dc;
+    --color-shadow: rgba(43, 61, 41, 0.06);
+    --color-shadow-hover: rgba(43, 61, 41, 0.12);
+
+    --font-headings: 'Lora', Georgia, serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+    --transition-fast: all 0.2s ease;
+    --transition-normal: all 0.3s ease;
+    --border-radius-sm: 6px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 24px;
+    --border-radius-pill: 50px;
+    
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    background-color: var(--color-bg-light);
+    overflow: hidden;
+}
+
+#kas-landing *, #kas-landing *::before, #kas-landing *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#kas-landing a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+#kas-landing a:hover {
+    color: var(--color-primary);
+}
+
+#kas-landing .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+#kas-landing .text-center {
+    text-align: center;
+}
+
+#kas-landing h1, #kas-landing h2, #kas-landing h3, #kas-landing h4 {
+    font-family: var(--font-headings);
+    color: var(--color-secondary);
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+}
+
+#kas-landing h1 { font-size: 3rem; margin-bottom: 1.5rem; }
+#kas-landing h2 { font-size: 2.25rem; margin-bottom: 1.25rem; }
+#kas-landing h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+#kas-landing p { margin-bottom: 1.25rem; color: var(--color-text-dark); }
+
+#kas-landing section {
+    padding: 6rem 0;
+}
+
+/* Button Component */
+#kas-landing .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.875rem 2rem;
+    border-radius: var(--border-radius-pill);
+    transition: var(--transition-normal);
+    box-shadow: 0 4px 12px rgba(43, 61, 41, 0.08);
+}
+#kas-landing .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white) !important;
+}
+#kas-landing .btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(43, 61, 41, 0.15);
+}
+#kas-landing .btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-white) !important;
+}
+#kas-landing .btn-secondary:hover {
+    background-color: #1a2719;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(26, 39, 25, 0.2);
+}
+#kas-landing .btn-large {
+    padding: 1.125rem 2.5rem;
+    font-size: 1.125rem;
+}
+
+/* Announcement Bar */
+#kas-landing .announcement-bar {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    padding: 0.625rem 1rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}
+#kas-landing .announcement-bar i {
+    color: var(--color-accent);
+    margin-right: 0.5rem;
+}
+
+/* Hero Section */
+#kas-landing .hero-section {
+    padding: 4.5rem 0 6rem;
+    background-color: var(--color-bg-light);
+    position: relative;
+}
+#kas-landing .hero-container {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+}
+#kas-landing .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#kas-landing .badge-discount {
+    background-color: var(--color-accent-light);
+    color: var(--color-secondary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--border-radius-pill);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(197, 164, 110, 0.25);
+}
+#kas-landing .hero-lead {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+}
+#kas-landing .hero-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+#kas-landing .original-price {
+    font-size: 1.25rem;
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+#kas-landing .current-price {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+#kas-landing .price-badge {
+    font-size: 0.8125rem;
+    background-color: var(--color-border);
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+#kas-landing .hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-bottom: 2.5rem;
+    width: 100%;
+}
+#kas-landing .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    font-size: 0.95rem;
+}
+#kas-landing .feature-item i {
+    color: var(--color-primary);
+    font-size: 1rem;
+}
+#kas-landing .hero-cta-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+#kas-landing .cta-note {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding-left: 0.5rem;
+}
+#kas-landing .hero-image-wrapper {
+    position: relative;
+    justify-self: center;
+    width: 100%;
+    max-width: 440px;
+}
+#kas-landing .hero-img {
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 20px 40px rgba(43, 61, 41, 0.12);
+    width: 100%;
+    transition: var(--transition-normal);
+}
+#kas-landing .hero-img:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 50px rgba(43, 61, 41, 0.18);
+}
+#kas-landing .floating-badge {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(43, 61, 41, 0.2);
+    border: 3px solid var(--color-bg-light);
+    animation: float 4s ease-in-out infinite;
+}
+#kas-landing .badge-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+#kas-landing .badge-text {
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Trust Seals */
+#kas-landing .trust-seals-section {
+    background-color: var(--color-bg-alt);
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+#kas-landing .trust-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+#kas-landing .trust-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+}
+#kas-landing .payment-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+#kas-landing .payment-logo-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    font-weight: 600;
+}
+#kas-landing .payment-logo-item i {
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+}
+#kas-landing .guarantees {
+    display: flex;
+    gap: 3rem;
+    margin-top: 0.5rem;
+}
+#kas-landing .guarantee-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-dark);
+}
+#kas-landing .guarantee-item i {
+    color: var(--color-primary);
+}
+
+/* About / Story Section */
+#kas-landing .story-section {
+    background-color: var(--color-bg-light);
+}
+#kas-landing .story-container {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 5rem;
+    align-items: center;
+}
+#kas-landing .story-img {
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 15px 30px rgba(43, 61, 41, 0.08);
+    width: 100%;
+}
+#kas-landing .story-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#kas-landing .story-divider {
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+#kas-landing .story-content p {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+}
+#kas-landing .story-author {
+    margin-top: 1.5rem;
+}
+#kas-landing .author-info {
+    display: flex;
+    flex-direction: column;
+}
+#kas-landing .author-info strong {
+    font-family: var(--font-headings);
+    color: var(--color-secondary);
+    font-size: 1.125rem;
+}
+#kas-landing .author-info span {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+/* Interactive Calculator */
+#kas-landing .calculator-section {
+    background-color: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+#kas-landing .calc-container {
+    max-width: 960px;
+}
+#kas-landing .section-lead {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+    margin-bottom: 3.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#kas-landing .calc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    background-color: var(--color-white);
+    padding: 3rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 15px 40px rgba(43, 61, 41, 0.05);
+    border: 1px solid var(--color-border);
+}
+#kas-landing .calc-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+}
+#kas-landing .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+#kas-landing .label-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#kas-landing .label-wrapper label {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-secondary);
+}
+#kas-landing .value-display {
+    font-family: var(--font-headings);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+#kas-landing .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: var(--border-radius-pill);
+    background: #e1dddf;
+    outline: none;
+    transition: var(--transition-fast);
+}
+#kas-landing .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(43, 61, 41, 0.2);
+    transition: var(--transition-fast);
+}
+#kas-landing .slider::-webkit-slider-thumb:hover {
+    background: var(--color-primary-dark);
+    transform: scale(1.1);
+}
+#kas-landing .slider::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(43, 61, 41, 0.2);
+    border: none;
+    transition: var(--transition-fast);
+}
+#kas-landing .range-limits {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+#kas-landing .results-card {
+    background-color: var(--color-bg-light);
+    border-radius: var(--border-radius-md);
+    padding: 2.25rem;
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+}
+#kas-landing .results-card h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-weight: 500;
+}
+#kas-landing .result-number-wrapper {
+    margin-bottom: 1.75rem;
+}
+#kas-landing .result-number {
+    font-family: var(--font-headings);
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+#kas-landing .results-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.25rem;
+}
+#kas-landing .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9375rem;
+}
+#kas-landing .breakdown-label {
+    color: var(--color-text-muted);
+}
+#kas-landing .breakdown-value {
+    font-weight: 600;
+}
+#kas-landing .highlight-interest {
+    color: var(--color-primary-dark);
+}
+#kas-landing .chart-container {
+    height: 12px;
+    background-color: #e6e3dc;
+    border-radius: var(--border-radius-pill);
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+#kas-landing .chart-bar-invested {
+    background-color: var(--color-primary-dark);
+    transition: width 0.4s ease;
+    height: 100%;
+}
+#kas-landing .chart-bar-interest {
+    background-color: var(--color-accent);
+    transition: width 0.4s ease;
+    height: 100%;
+}
+#kas-landing .calc-disclaimer {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+}
+
+/* Product Bundle */
+#kas-landing .bundle-section {
+    background-color: var(--color-bg-light);
+}
+#kas-landing .bundle-header {
+    margin-bottom: 4rem;
+}
+#kas-landing .sub-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--color-primary-dark);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+#kas-landing .bundle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+}
+#kas-landing .bundle-item-card {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 10px 30px var(--color-shadow);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    transition: var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+}
+#kas-landing .bundle-item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px var(--color-shadow-hover);
+    border-color: var(--color-primary);
+}
+#kas-landing .card-image-wrapper {
+    background-color: var(--color-bg-alt);
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    height: 340px;
+    overflow: hidden;
+}
+#kas-landing .card-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    transition: var(--transition-normal);
+}
+#kas-landing .bundle-item-card:hover .card-img {
+    transform: scale(1.03);
+}
+#kas-landing .card-content {
+    padding: 2.25rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#kas-landing .content-type {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+#kas-landing .card-content p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.75rem;
+}
+#kas-landing .card-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-top: auto;
+}
+#kas-landing .card-list li {
+    font-size: 0.875rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+}
+#kas-landing .card-list li i {
+    color: var(--color-primary);
+    margin-top: 0.25rem;
+}
+
+/* Benefits Section */
+#kas-landing .benefits-section {
+    background-color: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+#kas-landing .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-top: 4rem;
+}
+#kas-landing .benefit-box {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-md);
+    padding: 2.25rem 1.75rem;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 15px rgba(43, 61, 41, 0.02);
+    transition: var(--transition-normal);
+}
+#kas-landing .benefit-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 25px rgba(43, 61, 41, 0.06);
+}
+#kas-landing .benefit-icon {
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-bg-alt);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+#kas-landing .benefit-box h4 {
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-secondary);
+}
+#kas-landing .benefit-box p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* Testimonials Section */
+#kas-landing .testimonials-slider-wrapper {
+    position: relative;
+    max-width: 760px;
+    margin: 4.5rem auto 0;
+    padding: 3rem;
+    background-color: var(--color-bg-alt);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 10px 30px var(--color-shadow);
+}
+#kas-landing .testimonials-slider {
+    position: relative;
+    height: 180px; 
+    overflow: hidden;
+}
+#kas-landing .testimonial-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+}
+#kas-landing .testimonial-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+#kas-landing .quote-icon {
+    font-size: 2.25rem;
+    color: var(--color-primary);
+    opacity: 0.3;
+    margin-bottom: 1rem;
+    line-height: 1;
+}
+#kas-landing .testimonial-text {
+    font-family: var(--font-headings);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--color-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+#kas-landing .user-name {
+    font-weight: 600;
+    font-size: 0.9375rem;
+}
+#kas-landing .user-role {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+#kas-landing .slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+#kas-landing .control-btn {
+    width: 36px;
+    height: 36px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8125rem;
+    color: var(--color-secondary);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: var(--transition-fast);
+}
+#kas-landing .control-btn:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-white) !important;
+}
+#kas-landing .slider-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+#kas-landing .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+#kas-landing .dot.active {
+    background-color: var(--color-primary);
+    transform: scale(1.25);
+}
+
+/* FAQ Accordion */
+#kas-landing .faq-section {
+    background-color: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+#kas-landing .faq-container {
+    max-width: 760px;
+}
+#kas-landing .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 4.5rem;
+}
+#kas-landing .accordion-item {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    transition: var(--transition-normal);
+}
+#kas-landing .accordion-header {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+}
+#kas-landing .accordion-header:hover {
+    color: var(--color-primary);
+}
+#kas-landing .accordion-header i {
+    font-size: 0.875rem;
+    transition: transform 0.3s ease;
+    color: var(--color-text-muted);
+}
+#kas-landing .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    padding: 0 2rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    border-top: 1px solid transparent;
+}
+#kas-landing .accordion-item.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 6px 20px rgba(43, 61, 41, 0.04);
+}
+#kas-landing .accordion-item.active .accordion-header i {
+    transform: rotate(45deg);
+    color: var(--color-primary);
+}
+#kas-landing .accordion-item.active .accordion-content {
+    padding-bottom: 1.5rem;
+    border-top-color: var(--color-border);
+}
+
+/* Call to Action Section */
+#kas-landing .purchase-section {
+    background-color: var(--color-bg-light);
+}
+#kas-landing .purchase-container {
+    max-width: 960px;
+}
+#kas-landing .purchase-card {
+    background-color: var(--color-bg-alt);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    padding: 4.5rem 3.5rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(43, 61, 41, 0.04);
+}
+#kas-landing .purchase-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.375rem 1.25rem;
+    border-radius: var(--border-radius-pill);
+    letter-spacing: 0.1em;
+}
+#kas-landing .purchase-card h2 {
+    font-size: 2.25rem;
+}
+#kas-landing .purchase-card p {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    max-width: 550px;
+    margin: 0 auto 2.5rem;
+}
+#kas-landing .price-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+}
+#kas-landing .old-price {
+    font-size: 1.5rem;
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+#kas-landing .new-price {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--color-secondary);
+    font-family: var(--font-headings);
+}
+#kas-landing .purchase-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 3.5rem;
+    text-align: left;
+    align-items: center;
+}
+#kas-landing .purchase-mockup {
+    justify-self: center;
+    max-width: 320px;
+}
+#kas-landing .purchase-img {
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 15px 35px rgba(43, 61, 41, 0.1);
+}
+#kas-landing .purchase-details h4 {
+    font-size: 1.125rem;
+    margin-bottom: 1.25rem;
+}
+#kas-landing .details-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2.25rem;
+}
+#kas-landing .details-list li {
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+#kas-landing .details-list li i {
+    color: var(--color-primary-dark);
+}
+#kas-landing .btn-checkout {
+    width: 100%;
+}
+#kas-landing .payment-icons-small {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+}
+#kas-landing .payment-icons-small i {
+    font-size: 1.125rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUTS
+   ========================================================================== */
+@media (max-width: 992px) {
+    #kas-landing h1 { font-size: 2.5rem; }
+    #kas-landing h2 { font-size: 2rem; }
+    #kas-landing section { padding: 4.5rem 0; }
+    
+    #kas-landing .hero-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    #kas-landing .hero-content { align-items: center; }
+    #kas-landing .hero-cta-wrapper { align-items: center; }
+    #kas-landing .cta-note { justify-content: center; }
+    #kas-landing .hero-image-wrapper { max-width: 360px; order: -1; }
+
+    #kas-landing .story-container { grid-template-columns: 1fr; gap: 3rem; }
+    #kas-landing .story-image { max-width: 480px; margin: 0 auto; }
+
+    #kas-landing .calc-grid { grid-template-columns: 1fr; padding: 2.25rem; gap: 2.5rem; }
+
+    #kas-landing .bundle-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        max-width: 560px;
+        margin: 0 auto;
+    }
+    #kas-landing .card-image-wrapper { height: 280px; padding: 2rem; }
+    #kas-landing .benefits-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+
+    #kas-landing .purchase-card { padding: 3.5rem 2rem; }
+    #kas-landing .purchase-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    #kas-landing .purchase-mockup { max-width: 240px; order: -1; }
+}
+
+@media (max-width: 768px) {
+    #kas-landing .payment-logos { gap: 1.5rem; }
+    #kas-landing .guarantees { flex-direction: column; gap: 0.75rem; align-items: center; }
+    #kas-landing .benefits-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    #kas-landing .testimonials-slider-wrapper { padding: 2rem 1.5rem; }
+    #kas-landing .testimonials-slider { height: 240px; }
+    #kas-landing .testimonial-text { font-size: 0.95rem; }
+    #kas-landing .accordion-header { padding: 1.25rem 1.5rem; font-size: 0.95rem; }
+    #kas-landing .accordion-content { padding: 0 1.5rem; }
+}
+
+@media (max-width: 480px) {
+    #kas-landing h1 { font-size: 2.15rem; }
+    #kas-landing .result-number { font-size: 2.15rem; }
+    #kas-landing .new-price { font-size: 2.75rem; }
+    #kas-landing .btn-large { padding: 1rem 1.75rem; font-size: 1rem; width: 100%; }
+}
+</style>
+
+<div id="kas-landing">
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <p><i class="fa-solid fa-bolt"></i> DIREKTLEVERANS TILL DIN E-POST • KÖP NU OCH STARTA DIN SPARRESA DIREKT</p>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="badge-discount"><i class="fa-solid fa-star"></i> SPECIALERBJUDANDE: SPARA 40%</div>
+                <h1>Från tom plånbok till ekonomisk frihet.</h1>
+                <p class="hero-lead">En komplett, praktisk guide (PDF) och ett färdigt budgetverktyg (Excel) som visar hur du gör sparandet till en livsstil. Inget krångel, bara resultat.</p>
+                
+                <div class="hero-price">
+                    <span class="original-price">499 kr</span>
+                    <span class="current-price">299 kr</span>
+                    <span class="price-badge">Engångsköp</span>
+                </div>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>28-sidig PDF-guide</strong> med 16 praktiska kapitel</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Färdigt Excel-verktyg</strong> för budget, ränta-på-ränta & skulder</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Enkla livsstilshack</strong> som sparar dig tusenlappar varje månad</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta-wrapper">
+                    <!-- Link this checkout button directly to your Shopify checkout link -->
+                    <a href="/cart/ADD_PRODUCT_VARIANT_ID_HERE:1" class="btn btn-primary btn-large ripple"><i class="fa-solid fa-cart-shopping"></i> KÖP DIREKT FÖR 299 KR</a>
+                    <p class="cta-note"><i class="fa-solid fa-shield-halved"></i> 30 dagars nöjdhetsgaranti • Direkt nedladdning</p>
+                </div>
+            </div>
+            
+            <div class="hero-image-wrapper">
+                <!-- Shopify image reference -->
+                <img src="{{ 'HF_2026-06-14_090756.jpeg' | file_img_url: '800x' }}" alt="Konsten att spara pengar" class="hero-img">
+                <div class="floating-badge">
+                    <span class="badge-number">2-i-1</span>
+                    <span class="badge-text">Bok + Excel</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Seals -->
+    <section class="trust-seals-section">
+        <div class="container trust-container">
+            <div class="trust-title">SÄKRA BETALNINGAR OCH DIREKT LEVERANS</div>
+            <div class="payment-logos">
+                <div class="payment-logo-item" title="Klarna"><i class="fa-brands fa-kickstarter-k"></i><span>Klarna</span></div>
+                <div class="payment-logo-item" title="Swish"><i class="fa-solid fa-mobile-screen-button"></i><span>Swish</span></div>
+                <div class="payment-logo-item" title="Visa"><i class="fa-brands fa-cc-visa"></i><span>Visa</span></div>
+                <div class="payment-logo-item" title="Mastercard"><i class="fa-brands fa-cc-mastercard"></i><span>Mastercard</span></div>
+            </div>
+            <div class="guarantees">
+                <div class="guarantee-item">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    <span>Direkt nedladdning</span>
+                </div>
+                <div class="guarantee-item">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>30 dagars öppet köp</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Story Section -->
+    <section class="story-section" id="resa">
+        <div class="container story-container">
+            <div class="story-image">
+                <img src="{{ 'hf_2026-06-14_090818.png' | file_img_url: '800x' }}" alt="Morgon med kaffe och budgetplanering" class="story-img">
+            </div>
+            <div class="story-content">
+                <h2>"Jag var 25 år och trött på att alltid vara pank..."</h2>
+                <div class="story-divider"></div>
+                <p>Låt mig vara helt ärlig med dig. <strong>Jag är ingen ekonomiexpert i dyr kostym.</strong> Tvärtom. Under mina tidiga vuxna år var jag experten på att göra av med pengar. Varje månad såg likadan ut: lönen kom den 25:e, och runt den 20:e i nästa månad var kontot tomt. Jag levde med konstant stress i magen över vad som skulle hända om tvättmaskinen gick sönder eller om jag fick en oväntad tandläkarräkning.</p>
+                <p>I 25-årsåldern fick jag nog. Jag var trött på att aldrig kunna planera för framtiden, trött på att tacka nej till resor och trött på den där ständiga oron. Jag bestämde mig för att starta min egna <strong>"sparande journey"</strong>.</p>
+                <p>Jag insåg snabbt att sparande inte handlar om att leva på knäckebröd och förbjuda sig allt roligt. Det handlar om att skapa enkla vanor och göra det till en livsstil. Jag började bygga enkla system, automatisera mitt sparande och kartlägga mina dolda utgifter.</p>
+                <p>Idag har jag det där lugnet. Jag sover gott om natten för jag vet att jag har kontroll. Och det är precis den känslan jag vill ge dig. Jag har samlat allt jag själv lärde mig – alla mallar, kalkylatorer och enkla vardagsknep – i det här paketet. Sparande är enkelt, du behöver bara rätt karta för att börja.</p>
+                
+                <div class="story-author">
+                    <div class="author-info">
+                        <strong>Johan</strong>
+                        <span>Skapare av Konsten att spara</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Calculator Section -->
+    <section class="calculator-section" id="kalkylator">
+        <div class="container calc-container">
+            <div class="calc-header text-center">
+                <h2>Se hur dina pengar växer över tid</h2>
+                <p class="section-lead">Dra i reglagen nedan för att se den magiska ränta-på-ränta-effekten. Det är exakt den här kalkylatorn som ingår i ditt Excel-verktyg!</p>
+            </div>
+            
+            <div class="calc-grid">
+                <div class="calc-inputs">
+                    <div class="input-group">
+                        <div class="label-wrapper">
+                            <label for="rangeSavings">Månadssparande:</label>
+                            <span class="value-display" id="valSavings">1 000 kr</span>
+                        </div>
+                        <input type="range" id="rangeSavings" min="100" max="10000" step="100" value="1000" class="slider">
+                        <div class="range-limits">
+                            <span>100 kr</span>
+                            <span>10 000 kr</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="label-wrapper">
+                            <label for="rangeYears">Antal år:</label>
+                            <span class="value-display" id="valYears">20 år</span>
+                        </div>
+                        <input type="range" id="rangeYears" min="1" max="40" step="1" value="20" class="slider">
+                        <div class="range-limits">
+                            <span>1 år</span>
+                            <span>40 år</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-wrapper">
+                            <label for="rangeReturn">Förväntad årsavkastning:</label>
+                            <span class="value-display" id="valReturn">7%</span>
+                        </div>
+                        <input type="range" id="rangeReturn" min="1" max="15" step="0.5" value="7" class="slider">
+                        <div class="range-limits">
+                            <span>1%</span>
+                            <span>15%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-results">
+                    <div class="results-card">
+                        <h3>Ditt sparande efter <span id="resYears">20</span> år</h3>
+                        
+                        <div class="result-number-wrapper">
+                            <span class="result-number" id="resTotal">521 000 kr</span>
+                        </div>
+
+                        <div class="results-breakdown">
+                            <div class="breakdown-item">
+                                <span class="breakdown-label"><i class="fa-solid fa-piggy-bank"></i> Totalt insatt:</span>
+                                <span class="breakdown-value" id="resInvested">240 000 kr</span>
+                            </div>
+                            <div class="breakdown-item highlight-interest">
+                                <span class="breakdown-label"><i class="fa-solid fa-chart-line"></i> Ren avkastning:</span>
+                                <span class="breakdown-value" id="resInterest">281 000 kr</span>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <div class="chart-bar-invested" id="barInvested" style="width: 46%;"></div>
+                            <div class="chart-bar-interest" id="barInterest" style="width: 54%;"></div>
+                        </div>
+                        
+                        <p class="calc-disclaimer">*Historisk avkastning är ingen garanti för framtida avkastning. Beräkningen baseras på månatlig sammansatt ränta och ett startkapital på 10 000 kr.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Bundle Section -->
+    <section class="bundle-section" id="paketet">
+        <div class="container">
+            <div class="bundle-header text-center">
+                <span class="sub-title">DETTA INGÅR I DITT KÖP</span>
+                <h2>Ett komplett startpaket för din ekonomi</h2>
+                <p class="section-lead">Du får både den praktiska 28-sidiga PDF-guiden och det kraftfulla Excel-verktyget. Allt du behöver för att gå från teori till praktik.</p>
+            </div>
+
+            <div class="bundle-grid">
+                <!-- PDF Card -->
+                <div class="bundle-item-card">
+                    <div class="card-image-wrapper">
+                        <img src="{{ 'HF_2026-06-14_09-08-09.jpeg' | file_img_url: '600x' }}" alt="Konsten att spara pengar bokomslag" class="card-img">
+                    </div>
+                    <div class="card-content">
+                        <span class="content-type">PDF-KURS (28 SIDOR)</span>
+                        <h3>Boken: Konsten att spara pengar</h3>
+                        <p>En lättläst, steg-för-steg-guide uppdelad i 16 konkreta kapitel. Den visar hur du bygger en buffert, sätter upp smarta sparmål och får pengarna att växa.</p>
+                        <ul class="card-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Kapitel 1-4:</strong> Bygg grunden och din privata krockkudde.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Kapitel 5-9:</strong> Vardagshack, automatisering & livsskeden.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Kapitel 10-13:</strong> Ränta på ränta, ISK & pension utan krångel.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Kapitel 14-16:</strong> Hantera skulder & psykologin bakom vanor.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>30-dagarsplan:</strong> Från läsare till sparare på en månad.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Excel Card -->
+                <div class="bundle-item-card">
+                    <div class="card-image-wrapper">
+                        <img src="{{ 'hf_2026-06-14_09-08-14.jpeg' | file_img_url: '600x' }}" alt="Excel budgetverktyg" class="card-img">
+                    </div>
+                    <div class="card-content">
+                        <span class="content-type">EXCEL-VERKTYG (XLSX)</span>
+                        <h3>Verktyget: Din smarta budgetmall</h3>
+                        <p>En automatiserad Excel-arbetsbok som gör grovjobbet åt dig. Du fyller bara i de gula rutorna – resten räknas ut automatiskt.</p>
+                        <ul class="card-list">
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Månadsbudget (50/30/20):</strong> Håll koll på dina behov, viljor och sparande automatiskt.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Ränta-på-ränta kalkylator:</strong> Simulera ditt sparande baserat på dina egna mål.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Skuldkalkyl:</strong> Välj mellan Lavin- eller Snöbollsmetoden och se exakt när du blir skuldfri.</li>
+                            <li><i class="fa-solid fa-circle-check"></i> <strong>Färgkodat system:</strong> Enkelt att förstå, kräver inga Excel-förkunskaper.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Benefits -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2>Varför det här paketet faktiskt fungerar</h2>
+                <p class="section-lead">Vi fokuserar inte på teoretisk ekonomi – vi fokuserar på din vardag.</p>
+            </div>
+            
+            <div class="benefits-grid">
+                <div class="benefit-box">
+                    <div class="benefit-icon"><i class="fa-solid fa-arrows-spin"></i></div>
+                    <h4>1. Låt sparandet sköta sig självt</h4>
+                    <p>Viljestyrka är en färskvara. Vi visar hur du ställer in en stående överföring på lönedagen som gör att du sparar utan att tänka på det.</p>
+                </div>
+                
+                <div class="benefit-box">
+                    <div class="benefit-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                    <h4>2. Trygghet först med Bufferten</h4>
+                    <p>En krockkudde för oväntade utgifter. Vi bryter ner hur du bygger din första buffert på 10 000 kr, och hur det tar bort din ekonomiska stress.</p>
+                </div>
+
+                <div class="benefit-box">
+                    <div class="benefit-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <h4>3. Kapa läckorna i vardagen</h4>
+                    <p>Mat, prenumerationer och transport är de stora tjuvarna. Med enkla metoder som 72-timmarsregeln och matplanering sparar du tusenlappar.</p>
+                </div>
+
+                <div class="benefit-box">
+                    <div class="benefit-icon"><i class="fa-solid fa-percent"></i></div>
+                    <h4>4. Investera smart på ISK</h4>
+                    <p>Lär dig hur schablonbeskattning och breda globala indexfonder med låga avgifter låter dina pengar växa helt skattefritt upp till 300 000 kr (2026).</p>
+                </div>
+
+                <div class="benefit-box">
+                    <div class="benefit-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <h4>5. Bli av med dyra skulder</h4>
+                    <p>Kreditkort och delbetalningar äter upp din framtid. Följ snöbolls- eller lavinmetoden för att systematiskt krossa dina skulder.</p>
+                </div>
+
+                <div class="benefit-box">
+                    <div class="benefit-icon"><i class="fa-solid fa-hourglass-start"></i></div>
+                    <h4>6. Tid slår belopp</h4>
+                    <p>Du behöver inte tjäna massor för att bli rik. Den som börjar spara en liten summa tidigt slår nästan alltid den som sparar stort sent.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Slider Section -->
+    <section class="testimonials-section" id="recensioner">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="sub-title">VERKLIGA BERÄTTELSER</span>
+                <h2>Vad andra säger om guiden</h2>
+                <p class="section-lead">Dessa personer har använt samma principer för att förändra sin privatekonomi.</p>
+            </div>
+
+            <div class="testimonials-slider-wrapper">
+                <div class="testimonials-slider" id="kas-slider">
+                    <!-- Slide 1 -->
+                    <div class="testimonial-slide active">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text">"Jag trodde aldrig att jag kunde spara pengar, mitt konto var alltid tomt den 20:e. Jag började med en automatisk överföring på bara 400 kr i månaden och höjde i små steg. Efter ett år hade jag över 7 800 kr sparade. Det konstigaste är att jag inte ens har märkt det i min vardag!"</p>
+                        <div class="testimonial-user">
+                            <span class="user-name">Petra, 41 år</span>
+                            <span class="user-role">Undersköterska & småbarnsmamma</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2 -->
+                    <div class="testimonial-slide">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text">"När diskmaskinen gav upp och vi behövde köpa en ny för 5 500 kr, insåg jag värdet av bufferten. Istället för en ekonomisk kris med delbetalning och hög ränta, blev det bara ett litet irritationsmoment. Att ha pengar på kontot ger ett otroligt lugn i vardagen."</p>
+                        <div class="testimonial-user">
+                            <span class="user-name">Hassan, 34 år</span>
+                            <span class="user-role">Småbarnspappa</span>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="testimonial-slide">
+                        <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+                        <p class="testimonial-text">"Jag började lägga undan 300 kr från min extrainkomst på caféet varje månad. Efter ett år hade jag 3 600 kr – tillräckligt för att tacka ja till en spontan resa med kompisarna utan att behöva låna eller känna skuld. Det är en magisk känsla av frihet."</p>
+                        <div class="testimonial-user">
+                            <span class="user-name">Elsa, 19 år</span>
+                            <span class="user-role">Student</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slider Controls -->
+                <div class="slider-controls">
+                    <button class="control-btn prev-btn" id="kas-prevBtn" aria-label="Föregående omdöme"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="slider-dots" id="kas-sliderDots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                        <span class="dot" data-index="2"></span>
+                    </div>
+                    <button class="control-btn next-btn" id="kas-nextBtn" aria-label="Nästa omdöme"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="faq-section" id="faq">
+        <div class="container faq-container">
+            <div class="section-header text-center">
+                <h2>Vanliga frågor & svar</h2>
+                <p class="section-lead">Här hittar du svar på de vanligaste frågorna om paketet och privatekonomi.</p>
+            </div>
+
+            <div class="accordion">
+                <!-- FAQ Item 1 -->
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Hur levereras produkten?</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Både PDF-guiden och Excel-verktyget levereras digitalt till din e-post direkt efter genomfört köp. Du får en nedladdningslänk och kan börja läsa och använda verktygen inom 2 minuter.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Behöver jag ha förkunskaper i ekonomi eller Excel?</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Nej, absolut inte. Guiden är skriven för helt vanliga människor utan svåra ekonomiska termer. Excel-verktyget är helt automatiserat – du behöver bara skriva in dina inkomster och utgifter i de gula rutorna, så sköter kalkylatorn resten.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Ska jag spara eller betala av mina lån först?</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Detta är en vanlig fråga som vi går igenom i kapitel 14. Det korta svaret är: börja alltid med att bygga en liten buffert på ca 10 000 kr så du slipper ta nya lån om något oväntat sker. Betala därefter av lån med hög ränta (över 7%) innan du sparar extra, eftersom den sparade räntekostnaden är en garanterad vinst.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Vad innebär er 30 dagars nöjdhetsgaranti?</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Vi vill att du ska känna dig helt trygg. Om du läser igenom guiden, testar budgetmallen och känner att detta inte gett dig några värdefulla insikter eller verktyg för din ekonomi, skickar du bara ett mail till oss inom 30 dagar så återbetalar vi hela beloppet. Inga frågor ställs.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Lönar det sig verkligen att spara små belopp?</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Ja, av två skäl. För det första blir 200 kr i månaden 2 400 kr på ett år – vilket ofta är skillnaden mellan en kris och en enkel räkning när mobilen spricker. För det andra bygger det vanan och självförtroendet som gör det möjligt att spara mer i framtiden när inkomsten ökar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purchase Section -->
+    <section class="purchase-section" id="kop-nu">
+        <div class="container purchase-container">
+            <div class="purchase-card">
+                <div class="purchase-badge">TIDSBEGRÄNSAT ERBJUDANDE</div>
+                <h2>Är du redo att ta kontroll över dina pengar?</h2>
+                <p>Få direkt tillgång till hela paketet och starta din sparningsresa idag. Ditt framtida jag kommer att tacka dig.</p>
+                
+                <div class="price-box">
+                    <span class="old-price">499 kr</span>
+                    <span class="new-price">299 kr</span>
+                </div>
+                
+                <div class="purchase-grid">
+                    <div class="purchase-mockup">
+                        <img src="{{ 'HF_2026-06-14_090756.jpeg' | file_img_url: '600x' }}" alt="Konsten att spara pengar" class="purchase-img">
+                    </div>
+                    
+                    <div class="purchase-details">
+                        <h4>Detta får du direkt:</h4>
+                        <ul class="details-list">
+                            <li><i class="fa-solid fa-circle-check"></i> PDF-Guide: "Konsten att spara pengar" (28 sidor)</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Excel: Automatiserad budget- & skuldmall</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Livslånga uppdateringar</li>
+                            <li><i class="fa-solid fa-circle-check"></i> 100% Riskfritt: 30 dagars öppet köp</li>
+                        </ul>
+                        
+                        <div class="checkout-button-container">
+                            <!-- Link this checkout button directly to your Shopify checkout link -->
+                            <a href="/cart/ADD_PRODUCT_VARIANT_ID_HERE:1" class="btn btn-primary btn-large btn-checkout ripple">
+                                <i class="fa-solid fa-bag-shopping"></i> KÖP HÄR — DIREKT NEDLADDNING
+                            </a>
+                        </div>
+                        
+                        <div class="payment-icons-small">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <span>Säker krypterad betalning</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+/* Isolated JavaScript logic for the Custom Liquid Section to prevent namespace contamination */
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const wrap = document.getElementById('kas-landing');
+        if (!wrap) return;
+
+        /* Interactive Calculator logic */
+        const rangeSavings = wrap.querySelector('#rangeSavings');
+        const rangeYears = wrap.querySelector('#rangeYears');
+        const rangeReturn = wrap.querySelector('#rangeReturn');
+        
+        const valSavings = wrap.querySelector('#valSavings');
+        const valYears = wrap.querySelector('#valYears');
+        const valReturn = wrap.querySelector('#valReturn');
+        
+        const resYears = wrap.querySelector('#resYears');
+        const resTotal = wrap.querySelector('#resTotal');
+        const resInvested = wrap.querySelector('#resInvested');
+        const resInterest = wrap.querySelector('#resInterest');
+        
+        const barInvested = wrap.querySelector('#barInvested');
+        const barInterest = wrap.querySelector('#barInterest');
+
+        const START_PRINCIPAL = 10000; 
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('sv-SE', {
+                style: 'currency',
+                currency: 'SEK',
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function calculateCompoundInterest() {
+            if (!rangeSavings || !rangeYears || !rangeReturn) return;
+
+            const monthlySavings = parseFloat(rangeSavings.value);
+            const years = parseInt(rangeYears.value);
+            const annualReturn = parseFloat(rangeReturn.value) / 100;
+            
+            const monthlyRate = annualReturn / 12;
+            const totalMonths = years * 12;
+            
+            let futureValue = START_PRINCIPAL;
+            let totalInvested = START_PRINCIPAL;
+            
+            for (let m = 1; m <= totalMonths; m++) {
+                futureValue = (futureValue + monthlySavings) * (1 + monthlyRate);
+                totalInvested += monthlySavings;
+            }
+            
+            const totalProfit = Math.max(0, futureValue - totalInvested);
+            
+            valSavings.textContent = formatCurrency(monthlySavings);
+            valYears.textContent = `${years} år`;
+            valReturn.textContent = `${rangeReturn.value}%`;
+            
+            resYears.textContent = years;
+            resTotal.textContent = formatCurrency(futureValue);
+            resInvested.textContent = formatCurrency(totalInvested);
+            resInterest.textContent = formatCurrency(totalProfit);
+            
+            const investedPercent = (totalInvested / futureValue) * 100;
+            const interestPercent = 100 - investedPercent;
+            
+            barInvested.style.width = `${investedPercent}%`;
+            barInterest.style.width = `${interestPercent}%`;
+        }
+
+        if (rangeSavings) {
+            rangeSavings.addEventListener('input', calculateCompoundInterest);
+            rangeYears.addEventListener('input', calculateCompoundInterest);
+            rangeReturn.addEventListener('input', calculateCompoundInterest);
+            calculateCompoundInterest();
+        }
+
+        /* FAQ Accordion logic */
+        const accordionHeaders = wrap.querySelectorAll('.accordion-header');
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const content = header.nextElementSibling;
+                const isActive = item.classList.contains('active');
+                
+                wrap.querySelectorAll('.accordion-item').forEach(accItem => {
+                    accItem.classList.remove('active');
+                    accItem.querySelector('.accordion-content').style.maxHeight = '0';
+                });
+                
+                if (!isActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = `${content.scrollHeight}px`;
+                }
+            });
+        });
+
+        /* Testimonials Carousel logic */
+        const slides = wrap.querySelectorAll('.testimonial-slide');
+        const dots = wrap.querySelectorAll('.dot');
+        const prevBtn = wrap.querySelector('#kas-prevBtn');
+        const nextBtn = wrap.querySelector('#kas-nextBtn');
+        let currentSlide = 0;
+        let autoSlideInterval;
+
+        function showSlide(index) {
+            if (slides.length === 0) return;
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (index + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide();
+            autoSlideInterval = setInterval(nextSlide, 6000);
+        }
+
+        function stopAutoSlide() {
+            if (autoSlideInterval) clearInterval(autoSlideInterval);
+        }
+
+        if (nextBtn && slides.length > 0) {
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                startAutoSlide();
+            });
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                startAutoSlide();
+            });
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const index = parseInt(dot.getAttribute('data-index'));
+                    showSlide(index);
+                    startAutoSlide();
+                });
+            });
+            showSlide(0);
+            startAutoSlide();
+        }
+    });
+})();
+</script>
